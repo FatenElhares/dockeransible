@@ -8,7 +8,7 @@ ENV TERM=xterm-256color
 RUN apt-get update && \
 	apt-get install -y \
 	-o APT::Install-Recommend=false -o APT::Install-Suggests=false \
-	python python-virtualenv
+	python python-virtualenv libpython2.7 python-mysqldb
 
 # Activate Pyenv
 RUN virtualenv /appenv && \
@@ -16,6 +16,8 @@ RUN virtualenv /appenv && \
 	pip install pip --upgrade
 
 # Add entrypoint
-ADD scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
+
+LABEL application=todobackend
